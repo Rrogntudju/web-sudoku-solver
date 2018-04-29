@@ -84,7 +84,6 @@ pub mod api {
                         Err(e)          => SolveResponse {status: "fail".into(), data: "".into(), message: format!("{}", e)}
                     };
                 let json_response = serde_json::to_string(&sudoku_response).unwrap();
-                println!("JSON: {}", json_response);
                 let resp = create_response(
                     &state,
                     StatusCode::Ok,
@@ -109,7 +108,6 @@ pub mod api {
                         Err(e)      => DisplayResponse {status: "fail".into(), data: Vec::new(), message: format!("{}", e)}
                     };
                 let json_response = serde_json::to_string(&sudoku_response).unwrap();
-                println!("JSON: {}", json_response);
                 let resp = create_response(
                     &state,
                     StatusCode::Ok,
