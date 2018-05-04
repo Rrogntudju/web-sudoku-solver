@@ -33,7 +33,7 @@ else:
     print(display_grid['message'])
 print("")
 
-t1 = time.time()
+ts = time.time()
 resp = http.request(
     "POST", api_url + "/solve", 
     body=req,
@@ -53,5 +53,4 @@ if solution['status'] == "success":
 else:
     print(solution['message'])
 print("")
-t2 = time.time()
-print("{:.5f} sec.".format(round(t2 - t1, 5)))
+print("{:.5f} sec.".format(round(time.time() - ts, 5)))

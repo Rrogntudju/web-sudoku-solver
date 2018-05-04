@@ -1,0 +1,43 @@
+from multiprocessing.pool import Pool
+import urllib3
+import sys, getopt, time
+import json
+
+http = urllib3.PoolManager()
+
+def solve (puzzle):
+    req = json.dumps({'puzzle' : puzzle})
+    resp = http.request(
+        "POST", "http://127.0.0.1:7878/api/solve", 
+        body=req,
+        headers={'Content-Type': 'application/json'})
+    solution = json.loads(resp.data.decode("utf-8"))
+    if solution['status'] == "success":
+        return True
+    else:
+        return False
+
+nb_req = 10000
+try:
+    opts, _ = getopt.getopt(sys.argv[1::],"hn:",["help","nbreq="])
+except getopt.GetoptError:
+    print('intense.py -n <number of requests>')
+    sys.exit(2)
+for opt, arg in opts:
+    if opt in ('-h', "--help"):
+        print('intense.py -n <number of requests>')
+        sys.exit()
+    elif opt in ("-n", "--nbreq"):
+        try:
+            nb_req = int(arg)
+        except:
+            print('intense.py -n <number of requests>')
+            sys.exit(2) 
+
+ts = time.time()
+
+with Pool(4) as p:
+    solved = p.map(solve, ("700000600060001070804020005000470000089000340000039000600050709010300020003000004" for _ in range(nb_req)))
+
+print('{}/{} puzzles solved'.format(solved.count(True), len(solved)))
+print("{:.5f} sec.".format(round(time.time() - ts, 5)))
