@@ -34,7 +34,6 @@ pub mod api {
         match body {
             Ok(valid_body) => {
                 let body_content = String::from_utf8(valid_body.to_vec()).unwrap();
-                println!("Body: {}", body_content);
                 let sudoku_puzzle: Result<SudokuRequest, _> = serde_json::from_str(&body_content);
                 match sudoku_puzzle {
                     Ok(sp) => {
@@ -55,7 +54,6 @@ pub mod api {
         match body {
             Ok(valid_body) => {
                 let body_content = String::from_utf8(valid_body.to_vec()).unwrap();
-                println!("Body: {}", body_content);
                 let sudoku_puzzle: Result<SudokuRequest, _> = serde_json::from_str(&body_content);
                 match sudoku_puzzle {
                     Ok(sp) => {

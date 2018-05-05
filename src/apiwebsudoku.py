@@ -18,7 +18,7 @@ ids = ["f" + str(j) + str(i) for i in range(9) for j in range(9)]
 puzzle = "".join([puzzle_values[id] if id in puzzle_values else "0" for id in ids])
 
 # Solve with sudoku web api
-api_url = "http://127.0.0.1:7878/api"
+api_url = "http://localhost:7878/api"
 req = json.dumps({'puzzle' : puzzle})
 resp = http.request(
     "POST", api_url + "/display", 

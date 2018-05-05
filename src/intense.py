@@ -1,6 +1,6 @@
 from multiprocessing.pool import Pool
 import urllib3
-import sys, getopt, time
+import os, sys, getopt, time
 import json
 
 http = urllib3.PoolManager()
@@ -8,7 +8,7 @@ http = urllib3.PoolManager()
 def solve (puzzle):
     req = json.dumps({'puzzle' : puzzle})
     resp = http.request(
-        "POST", "http://127.0.0.1:7878/api/solve", 
+        "POST", "http://localhost:7878/api/solve", 
         body=req,
         headers={'Content-Type': 'application/json'})
     solution = json.loads(resp.data.decode("utf-8"))
@@ -17,7 +17,7 @@ def solve (puzzle):
     else:
         return False
 
-nb_req = 10000
+nb_req = 1000
 try:
     opts, _ = getopt.getopt(sys.argv[1::],"hn:",["help","nbreq="])
 except getopt.GetoptError:
@@ -36,7 +36,7 @@ for opt, arg in opts:
 
 ts = time.time()
 
-with Pool(4) as p:
+with Pool(os.cpu_count()) as p:
     solved = p.map(solve, ("700000600060001070804020005000470000089000340000039000600050709010300020003000004" for _ in range(nb_req)))
 
 print('{}/{} puzzles solved'.format(solved.count(True), len(solved)))
