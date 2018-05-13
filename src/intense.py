@@ -17,7 +17,7 @@ def solve (puzzle):
     else:
         return False
 
-nb_req = 1000
+nb_req = 10000
 try:
     opts, _ = getopt.getopt(sys.argv[1::],"hn:",["help","nbreq="])
 except getopt.GetoptError:

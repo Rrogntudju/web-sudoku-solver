@@ -1,6 +1,8 @@
 //! Gotham web framework router and handlers for sudoku solver 
-#![feature(conservative_impl_trait)]
-extern crate futures;
+#![feature(proc_macro, generators)]
+#![feature(proc_macro_non_items)]
+
+extern crate futures_await as futures;
 extern crate gotham;
 extern crate hyper;
 extern crate mime;
@@ -20,8 +22,8 @@ mod sudoku;
 fn router() -> Router {
     build_simple_router(|route| {
         route.scope("/api", |route| {
-            route.post("/solve").to(api::solve);
-            route.post("/display").to(api::display);
+            route.post("/solve").to(api::solve_await);
+            route.post("/display").to(api::display_await);
         });
     })
 }
