@@ -3,7 +3,7 @@ pub mod api {
 
     use gotham::http::response::create_response;
     use gotham::state::{State, FromState};
-    use gotham::handler::HandlerFuture;
+    use gotham::handler::{HandlerFuture, HandlerError};
     use hyper::{Body, Chunk, Error, StatusCode};
     use mime;
     use futures::{Future, future, Stream};
@@ -96,7 +96,7 @@ pub mod api {
 
     // Like solve but using async/await
     #[async(boxed)]
-    pub fn solve_await(mut state: State) -> Result<(State, hyper::Response), (State, gotham::handler::HandlerError)> {
+    pub fn solve_await(mut state: State) -> Result<(State, hyper::Response), (State, HandlerError)> {
         let req = await!(Body::take_from(&mut state).concat2().into_future());
         let solve_result = await!(solve_sudoku(req));
         let sudoku_response = 
@@ -140,7 +140,7 @@ pub mod api {
 
     // Like display but using async/await
     #[async(boxed)]
-    pub fn display_await(mut state: State) -> Result<(State, hyper::Response), (State, gotham::handler::HandlerError)> {
+    pub fn display_await(mut state: State) -> Result<(State, hyper::Response), (State, HandlerError)> {
         let req = await!(Body::take_from(&mut state).concat2().into_future());
         let grid_result = await!(display_sudoku(req));
         let sudoku_response = 
