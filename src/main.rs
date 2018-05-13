@@ -1,6 +1,7 @@
 //! Gotham web framework router and handlers for sudoku solver 
 #![feature(proc_macro, generators)]
 #![feature(proc_macro_non_items)]
+#![feature(extern_prelude)]
 
 extern crate futures_await as futures;
 extern crate gotham;

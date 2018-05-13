@@ -95,27 +95,23 @@ pub mod api {
     }
 
     // Like solve but using async/await
-    pub fn solve_await(mut state: State) -> Box<HandlerFuture> {
-        let fut =
-            async_block! {
-                let req = await!(Body::take_from(&mut state).concat2().into_future());
-                let solve_result = await!(solve_sudoku(req));
-                let sudoku_response = 
-                    match solve_result {
-                        Ok(solution)    => SolveResponse {status: "success".into(), data: solution, message: "".into()},
-                        Err(e)          => SolveResponse {status: "fail".into(), data: "".into(), message: format!("{}", e)}
-                    };
-                let json_response = serde_json::to_string(&sudoku_response).unwrap();
-                let resp = create_response(
-                    &state,
-                    StatusCode::Ok,
-                    Some((json_response.into_bytes(), mime::APPLICATION_JSON))
-                );
-
-                Ok((state, resp))
+    #[async(boxed)]
+    pub fn solve_await(mut state: State) -> Result<(State, hyper::Response), (State, gotham::handler::HandlerError)> {
+        let req = await!(Body::take_from(&mut state).concat2().into_future());
+        let solve_result = await!(solve_sudoku(req));
+        let sudoku_response = 
+            match solve_result {
+                Ok(solution)    => SolveResponse {status: "success".into(), data: solution, message: "".into()},
+                Err(e)          => SolveResponse {status: "fail".into(), data: "".into(), message: format!("{}", e)}
             };
+        let json_response = serde_json::to_string(&sudoku_response).unwrap();
+        let resp = create_response(
+            &state,
+            StatusCode::Ok,
+            Some((json_response.into_bytes(), mime::APPLICATION_JSON))
+        );
 
-        Box::new(fut)
+        Ok((state, resp))
     }
 
     pub fn display(mut state: State) -> Box<HandlerFuture> {
@@ -143,27 +139,23 @@ pub mod api {
     }
 
     // Like display but using async/await
-    pub fn display_await(mut state: State) -> Box<HandlerFuture> {
-        let fut =
-            async_block! {
-                let req = await!(Body::take_from(&mut state).concat2().into_future());
-                let grid_result = await!(display_sudoku(req));
-                let sudoku_response = 
-                    match grid_result {
-                        Ok(grid)    => DisplayResponse {status: "success".into(), data: grid, message: "".into()},
-                        Err(e)      => DisplayResponse {status: "fail".into(), data: Vec::new(), message: format!("{}", e)}
-                    };
-                let json_response = serde_json::to_string(&sudoku_response).unwrap();
-                let resp = create_response(
-                    &state,
-                    StatusCode::Ok,
-                    Some((json_response.into_bytes(), mime::APPLICATION_JSON))
-                );
-
-                Ok((state, resp))
+    #[async(boxed)]
+    pub fn display_await(mut state: State) -> Result<(State, hyper::Response), (State, gotham::handler::HandlerError)> {
+        let req = await!(Body::take_from(&mut state).concat2().into_future());
+        let grid_result = await!(display_sudoku(req));
+        let sudoku_response = 
+            match grid_result {
+                Ok(grid)    => DisplayResponse {status: "success".into(), data: grid, message: "".into()},
+                Err(e)      => DisplayResponse {status: "fail".into(), data: Vec::new(), message: format!("{}", e)}
             };
+        let json_response = serde_json::to_string(&sudoku_response).unwrap();
+        let resp = create_response(
+            &state,
+            StatusCode::Ok,
+            Some((json_response.into_bytes(), mime::APPLICATION_JSON))
+        );
 
-        Box::new(fut)
+        Ok((state, resp))
     }
 
 }
