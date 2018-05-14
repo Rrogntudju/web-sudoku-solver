@@ -1,6 +1,5 @@
 #[allow(dead_code)]
 pub mod api {
-
     use gotham::http::response::create_response;
     use gotham::state::{State, FromState};
     use gotham::handler::{HandlerFuture, HandlerError};
@@ -90,7 +89,6 @@ pub mod api {
                 future::ok((state, resp))
             }
         );
-
         Box::new(fut)
     }
 
@@ -110,7 +108,6 @@ pub mod api {
             StatusCode::Ok,
             Some((json_response.into_bytes(), mime::APPLICATION_JSON))
         );
-
         Ok((state, resp))
     }
 
@@ -134,7 +131,6 @@ pub mod api {
                 future::ok((state, resp))
             }
         );
-
         Box::new(fut)
     }
 
@@ -154,7 +150,6 @@ pub mod api {
             StatusCode::Ok,
             Some((json_response.into_bytes(), mime::APPLICATION_JSON))
         );
-
         Ok((state, resp))
     }
 
