@@ -18,20 +18,21 @@ def solve (puzzle):
         return False
 
 nb_req = 10000
+help = 'intense.py -n <number of requests>'
 try:
     opts, _ = getopt.getopt(sys.argv[1::],"hn:",["help","nbreq="])
 except getopt.GetoptError:
-    print('intense.py -n <number of requests>')
+    print(help)
     sys.exit(2)
 for opt, arg in opts:
     if opt in ('-h', "--help"):
-        print('intense.py -n <number of requests>')
+        print(help)
         sys.exit()
     elif opt in ("-n", "--nbreq"):
         try:
             nb_req = int(arg)
         except:
-            print('intense.py -n <number of requests>')
+            print(help)
             sys.exit(2) 
 
 ts = time.time()
