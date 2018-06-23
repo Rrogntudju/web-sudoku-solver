@@ -23,14 +23,14 @@ mod sudoku;
 fn router() -> Router {
     build_simple_router(|route| {
         route.scope("/api", |route| {
-            route.post("/solve").to(api::solve_await);
-            route.post("/display").to(api::display_await);
+            route.post("/solve").to(solve_await);
+            route.post("/display").to(display_await);
         });
     })
 }
 
 /// Start a server and use a `Router` to dispatch requests
-pub fn main() {
+fn main() {
     let addr = "localhost:7878";
     println!("Listening for requests at http://{}", addr);
     gotham::start(addr, router())
@@ -38,7 +38,7 @@ pub fn main() {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use super::router;
     use gotham::test::TestServer;
     use hyper::StatusCode;
 
