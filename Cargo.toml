@@ -1,11 +1,14 @@
+cargo-features = ["edition"]
+
 [package]
 name = "web-sudoku-solver"
 version = "0.1.0"
 authors = ["Rrogntudju"]
+edition = "2018"
 
 [dependencies]
 hyper = "0.11"
-futures-await = "0.1"
+futures = "0.1"
 mime = "0.3"
 gotham = "0.2.0"
 serde_json = "1.0.14"

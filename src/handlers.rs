@@ -3,10 +3,10 @@ use gotham::state::{State, FromState};
 use gotham::handler::{HandlerFuture, HandlerError};
 use hyper::{Body, Chunk, Error, StatusCode, Response};
 use mime;
-use futures::{Future, future, Stream};
-use futures::prelude::*;
+use futures::{Future, future, Stream, IntoFuture};
+//use futures::prelude::*;
 use serde_json;
-use sudoku::{Sudoku, PuzzleError};
+use crate::sudoku::{Sudoku, PuzzleError};
 
 #[derive(Deserialize)]
 struct SudokuRequest {
@@ -90,7 +90,7 @@ pub fn solve(mut state: State) -> Box<HandlerFuture> {
     );
     Box::new(fut)
 }
-
+/* 
 // Like solve but using async/await
 #[allow(dead_code)]
 #[async(boxed)]
@@ -109,7 +109,7 @@ pub fn solve_await(mut state: State) -> Result<(State, Response), (State, Handle
         Some((json_response.into_bytes(), mime::APPLICATION_JSON))
     );
     Ok((state, resp))
-}
+} */
 
 #[allow(dead_code)]
 pub fn display(mut state: State) -> Box<HandlerFuture> {
@@ -134,7 +134,7 @@ pub fn display(mut state: State) -> Box<HandlerFuture> {
     );
     Box::new(fut)
 }
-
+/* 
 // Like display but using async/await
 #[allow(dead_code)]
 #[async(boxed)]
@@ -153,4 +153,4 @@ pub fn display_await(mut state: State) -> Result<(State, Response), (State, Hand
         Some((json_response.into_bytes(), mime::APPLICATION_JSON))
     );
     Ok((state, resp))
-}
+} */
