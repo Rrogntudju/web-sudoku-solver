@@ -5,12 +5,6 @@
 //#![feature(await_macro)]
 //#![feature(custom_attribute)]
 
-/* extern crate futures;
-extern crate gotham;
-extern crate hyper;
-extern crate mime;
-extern crate serde_json; */
-
 #[macro_use]
 extern crate serde_derive;
 
@@ -40,7 +34,7 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    use super::router;
+    use crate::router;
     use gotham::test::TestServer;
     use hyper::StatusCode;
 
