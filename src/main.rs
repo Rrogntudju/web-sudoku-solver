@@ -56,7 +56,7 @@ mod tests {
             .perform()
             .unwrap();
 
-        assert_eq!(response.status(), StatusCode::Ok);
+        assert_eq!(response.status(), StatusCode::OK);
 
         let body = response.read_body().unwrap();
         assert_eq!(body.to_vec(),
@@ -77,7 +77,7 @@ mod tests {
             .perform()
             .unwrap();
 
-        assert_eq!(response.status(), StatusCode::Ok);
+        assert_eq!(response.status(), StatusCode::OK);
 
         let body = response.read_body().unwrap();
         assert_eq!(body.to_vec(),
@@ -98,7 +98,7 @@ mod tests {
             .perform()
             .unwrap();
 
-        assert_eq!(response.status(), StatusCode::Ok);
+        assert_eq!(response.status(), StatusCode::OK);
 
         let body = response.read_body().unwrap();
         assert_eq!(body.to_vec(), 
@@ -119,7 +119,7 @@ mod tests {
             .perform()
             .unwrap();
 
-        assert_eq!(response.status(), StatusCode::Ok);
+        assert_eq!(response.status(), StatusCode::OK);
 
         let body = response.read_body().unwrap();
         assert_eq!(body.to_vec(), 

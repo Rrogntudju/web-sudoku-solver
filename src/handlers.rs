@@ -1,4 +1,4 @@
-use gotham::http::response::create_response;
+use gotham::helpers::http::response::create_response;
 use gotham::state::{State, FromState};
 use gotham::handler::{HandlerFuture, HandlerError};
 use hyper::{Body, Chunk, Error, StatusCode, Response};
@@ -82,8 +82,9 @@ pub fn solve(mut state: State) -> Box<HandlerFuture> {
             let json_response = serde_json::to_string(&sudoku_response).unwrap();
             let resp = create_response(
                 &state,
-                StatusCode::Ok,
-                Some((json_response.into_bytes(), mime::APPLICATION_JSON))
+                StatusCode::OK,
+                mime::APPLICATION_JSON,
+                json_response.into_bytes()
             );
             future::ok((state, resp))
         }
@@ -105,8 +106,9 @@ pub fn solve_await(mut state: State) -> Result<(State, Response), (State, Handle
     let json_response = serde_json::to_string(&sudoku_response).unwrap();
     let resp = create_response(
         &state,
-        StatusCode::Ok,
-        Some((json_response.into_bytes(), mime::APPLICATION_JSON))
+        StatusCode::OK,
+        mime::APPLICATION_JSON,
+        json_response.into_bytes()
     );
     Ok((state, resp))
 } */
@@ -126,8 +128,9 @@ pub fn display(mut state: State) -> Box<HandlerFuture> {
             let json_response = serde_json::to_string(&sudoku_response).unwrap();
             let resp = create_response(
                 &state,
-                StatusCode::Ok,
-                Some((json_response.into_bytes(), mime::APPLICATION_JSON))
+                StatusCode::OK,
+                mime::APPLICATION_JSON,
+                json_response.into_bytes()
             );
             future::ok((state, resp))
         }
@@ -149,8 +152,9 @@ pub fn display_await(mut state: State) -> Result<(State, Response), (State, Hand
     let json_response = serde_json::to_string(&sudoku_response).unwrap();
     let resp = create_response(
         &state,
-        StatusCode::Ok,
-        Some((json_response.into_bytes(), mime::APPLICATION_JSON))
+        StatusCode::OK,
+        mime::APPLICATION_JSON,
+        json_response.into_bytes()
     );
     Ok((state, resp))
 } */
