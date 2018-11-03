@@ -1,7 +1,7 @@
 //! Gotham web framework router and handlers for sudoku solver 
 //#![feature(generators)]
-//#![feature(proc_macro_non_items)]
-//#![feature(extern_prelude)]
+//#![feature(proc_macro_hygiene)]
+//#![feature(extern_crate_item_prelude)]
 //#![feature(await_macro)]
 //#![feature(custom_attribute)]
 

@@ -2,10 +2,7 @@ use gotham::helpers::http::response::create_response;
 use gotham::state::{State, FromState};
 use gotham::handler::{HandlerFuture, HandlerError};
 use hyper::{Body, Chunk, Error, StatusCode, Response};
-use mime;
 use futures::{Future, future, Stream, IntoFuture};
-//use futures::prelude::*;
-use serde_json;
 use crate::sudoku::{Sudoku, PuzzleError};
 
 #[derive(Deserialize)]
@@ -91,11 +88,11 @@ pub fn solve(mut state: State) -> Box<HandlerFuture> {
     );
     Box::new(fut)
 }
-/* 
+/*
 // Like solve but using async/await
 #[allow(dead_code)]
 #[async(boxed)]
-pub fn solve_await(mut state: State) -> Result<(State, Response), (State, HandlerError)> {
+pub fn solve_await(mut state: State) -> Result<(State, Response<Body>), (State, HandlerError)> {
     let req = await!(Body::take_from(&mut state).concat2().into_future());
     let solve_result = await!(solve_sudoku(req));
     let sudoku_response = 
@@ -136,12 +133,12 @@ pub fn display(mut state: State) -> Box<HandlerFuture> {
         }
     );
     Box::new(fut)
-}
+} 
 /* 
 // Like display but using async/await
 #[allow(dead_code)]
 #[async(boxed)]
-pub fn display_await(mut state: State) -> Result<(State, Response), (State, HandlerError)> {
+pub fn display_await(mut state: State) -> Result<(State, Response<Body>), (State, HandlerError)> {
     let req = await!(Body::take_from(&mut state).concat2().into_future());
     let grid_result = await!(display_sudoku(req));
     let sudoku_response = 
