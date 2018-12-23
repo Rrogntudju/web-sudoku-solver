@@ -3,6 +3,7 @@ use gotham::state::{State, FromState};
 use gotham::handler::{HandlerFuture, HandlerError};
 use hyper::{Body, Chunk, Error, StatusCode, Response};
 use futures::{Future, future, Stream, IntoFuture};
+use serde::{Deserialize, Serialize};
 use crate::sudoku::{Sudoku, PuzzleError};
 
 #[derive(Deserialize)]

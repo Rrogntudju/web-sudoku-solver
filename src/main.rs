@@ -1,12 +1,4 @@
 //! Gotham web framework router and handlers for sudoku solver 
-//#![feature(generators)]
-//#![feature(proc_macro_hygiene)]
-//#![feature(extern_crate_item_prelude)]
-//#![feature(await_macro)]
-//#![feature(custom_attribute)]
-
-#[macro_use]
-extern crate serde_derive;
 
 use gotham::router::Router;
 use gotham::router::builder::*;
