@@ -4,7 +4,7 @@ use gotham::router::Router;
 use gotham::router::builder::*;
 
 mod handlers;
-use crate::handlers::{display, solve};
+use handlers::{display, solve};
 
 mod sudoku;
 
