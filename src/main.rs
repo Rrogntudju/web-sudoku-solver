@@ -1,18 +1,18 @@
 //! Gotham web framework router and handlers for sudoku solver 
-
+#![feature(async_await)]
 use gotham::router::Router;
 use gotham::router::builder::*;
 
 mod handlers;
-use handlers::{display, solve};
+use handlers::{display, solve, display_await, solve_await};
 
 mod sudoku;
 
 fn router() -> Router {
     build_simple_router(|route| {
         route.scope("/api", |route| {
-            route.post("/solve").to(solve);
-            route.post("/display").to(display);
+            route.post("/solve").to(solve_await);
+            route.post("/display").to(display_await);
         });
     })
 }

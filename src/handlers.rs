@@ -1,8 +1,8 @@
 use gotham::helpers::http::response::create_response;
 use gotham::state::{State, FromState};
-use gotham::handler::{HandlerFuture, HandlerError};
-use hyper::{Body, Chunk, Error, StatusCode, Response};
-use futures::{Future, future, Stream, IntoFuture};
+use gotham::handler::{HandlerFuture};
+use hyper::{Body, Chunk, Error, StatusCode};
+use futures::{Future, future, Stream};
 use serde::{Deserialize, Serialize};
 use crate::sudoku::{Sudoku, PuzzleError};
 
@@ -89,27 +89,33 @@ pub fn solve(mut state: State) -> Box<HandlerFuture> {
     );
     Box::new(fut)
 }
-/*
+
 // Like solve but using async/await
 #[allow(dead_code)]
-#[async(boxed)]
-pub fn solve_await(mut state: State) -> Result<(State, Response<Body>), (State, HandlerError)> {
-    let req = await!(Body::take_from(&mut state).concat2().into_future());
-    let solve_result = await!(solve_sudoku(req));
-    let sudoku_response = 
-        match solve_result {
-            Ok(solution)    => SolveResponse {status: "success".into(), data: solution, message: "".into()},
-            Err(e)          => SolveResponse {status: "fail".into(), data: "".into(), message: format!("{}", e)}
-        };
-    let json_response = serde_json::to_string(&sudoku_response).unwrap();
-    let resp = create_response(
-        &state,
-        StatusCode::OK,
-        mime::APPLICATION_JSON,
-        json_response.into_bytes()
-    );
-    Ok((state, resp))
-} */
+pub fn solve_await(mut state: State) -> Box<HandlerFuture> {
+    let fut03 = async { 
+        use futures03::compat::Future01CompatExt;
+
+        let req = Body::take_from(&mut state).concat2().compat().await;
+        let solve_result = solve_sudoku(req).compat().await;
+        let sudoku_response = 
+            match solve_result {
+                Ok(solution)    => SolveResponse {status: "success".into(), data: solution, message: "".into()},
+                Err(e)          => SolveResponse {status: "fail".into(), data: "".into(), message: format!("{}", e)}
+            };
+        let json_response = serde_json::to_string(&sudoku_response).unwrap();
+        let resp = create_response(
+            &state,
+            StatusCode::OK,
+            mime::APPLICATION_JSON,
+            json_response.into_bytes()
+        );
+        Ok((state, resp))
+    };
+    use futures03::future::{FutureExt, TryFutureExt};
+
+    Box::new(fut03.boxed().compat())
+}
 
 #[allow(dead_code)]
 pub fn display(mut state: State) -> Box<HandlerFuture> {
@@ -135,24 +141,30 @@ pub fn display(mut state: State) -> Box<HandlerFuture> {
     );
     Box::new(fut)
 } 
-/* 
+
 // Like display but using async/await
 #[allow(dead_code)]
-#[async(boxed)]
-pub fn display_await(mut state: State) -> Result<(State, Response<Body>), (State, HandlerError)> {
-    let req = await!(Body::take_from(&mut state).concat2().into_future());
-    let grid_result = await!(display_sudoku(req));
-    let sudoku_response = 
-        match grid_result {
-            Ok(grid)    => DisplayResponse {status: "success".into(), data: grid, message: "".into()},
-            Err(e)      => DisplayResponse {status: "fail".into(), data: Vec::new(), message: format!("{}", e)}
-        };
-    let json_response = serde_json::to_string(&sudoku_response).unwrap();
-    let resp = create_response(
-        &state,
-        StatusCode::OK,
-        mime::APPLICATION_JSON,
-        json_response.into_bytes()
-    );
-    Ok((state, resp))
-} */
+pub fn display_await(mut state: State) -> Box<HandlerFuture> {
+    let fut03 = async { 
+        use futures03::compat::Future01CompatExt;
+
+        let req = Body::take_from(&mut state).concat2().compat().await;
+        let grid_result = display_sudoku(req).compat().await;
+        let sudoku_response = 
+            match grid_result {
+                Ok(grid)    => DisplayResponse {status: "success".into(), data: grid, message: "".into()},
+                Err(e)      => DisplayResponse {status: "fail".into(), data: Vec::new(), message: format!("{}", e)}
+            };
+        let json_response = serde_json::to_string(&sudoku_response).unwrap();
+        let resp = create_response(
+            &state,
+            StatusCode::OK,
+            mime::APPLICATION_JSON,
+            json_response.into_bytes()
+        );
+        Ok((state, resp))
+    };
+    use futures03::future::{FutureExt, TryFutureExt};
+
+    Box::new(fut03.boxed().compat())
+}
