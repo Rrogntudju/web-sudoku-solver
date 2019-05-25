@@ -6,8 +6,6 @@ use gotham::router::builder::*;
 mod handlers;
 use handlers::{display, solve, display_await, solve_await};
 
-mod sudoku;
-
 fn router() -> Router {
     build_simple_router(|route| {
         route.scope("/api", |route| {

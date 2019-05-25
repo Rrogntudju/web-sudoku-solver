@@ -4,7 +4,9 @@ use gotham::handler::{HandlerFuture};
 use hyper::{Body, Chunk, Error, StatusCode};
 use futures::{Future, future, Stream};
 use serde::{Deserialize, Serialize};
-use crate::sudoku::{Sudoku, PuzzleError};
+
+mod sudoku;
+use sudoku::{Sudoku, PuzzleError};
 
 #[derive(Deserialize)]
 struct SudokuRequest {
