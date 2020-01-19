@@ -1,5 +1,4 @@
 //! Gotham web framework router and handlers for sudoku solver 
-#![feature(async_await)]
 use gotham::router::Router;
 use gotham::router::builder::*;
 
